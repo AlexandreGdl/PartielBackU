@@ -15,4 +15,15 @@ export class UsersService {
 
     }
 
+    async register(user: User): Promise<any>{
+        const registeredUser = new this.userModel(user);
+        const exist = await this.userModel.find({username: user.username});
+            if (exist[0]){
+                return {message: 'User already exist',status:409};
+            } else {
+                registeredUser.save();
+                return {message: 'User created',code: 201}
+            }
+    }
+
 }
